@@ -1,12 +1,25 @@
-import React from 'react'
+import React from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
-import { dummyInterviews } from '@/constants';
-import InterviewCard from '@/components/InterviewCard';
-// import InterviewCard from "@/components/InterviewCard";
+import InterviewCard from "@/components/InterviewCard";
 
-const page = () => {
+import {
+  getCurrentUser,
+  getInterviewsByUserId, getLatestInterviews
+} from "@/lib/actions/auth.action";
+
+const page = async () => {
+  const user = await getCurrentUser();
+
+  const [userInterviews, latestInterviews] = await Promise.all([
+    getInterviewsByUserId(user?.id!),
+    getLatestInterviews({ userId: user?.id! }),
+  ]);
+
+  const hasPastInterviews = userInterviews?.length > 0;
+  const hasUpcomingInterviews = latestInterviews?.length! > 0;
+
   return (
     <>
       <section className="card-cta">
@@ -41,9 +54,15 @@ const page = () => {
           ) : (
             <p>You haven&apos;t created any interviews yet. Generate one below!</p>
           )} */}
-          {dummyInterviews.map((interview) => (
-            <InterviewCard key={interview.id} {...interview} />
-          ))}
+          {hasPastInterviews ? (
+            userInterviews?.map((interview) => (
+              <InterviewCard {...interview} key={interview.id} />
+            ))
+          ) : (
+            <p>
+              You haven&apos;t created any interviews yet. Generate one below!
+            </p>
+          )}
         </div>
       </section>
 
@@ -54,13 +73,15 @@ const page = () => {
           {/* {availableInterviews.slice(0, 6).map((interview) => (
             <InterviewCard {...interview} userId={user?.id} key={interview.id}/>
           ))} */}
-          {dummyInterviews.map((interview) => (
-            <InterviewCard key={interview.id} {...interview} />
-          ))}
+          {hasUpcomingInterviews
+            ? latestInterviews?.map((interview) => (
+                <InterviewCard {...interview} key={interview.id} />
+              ))
+            : "No upcoming interviews available."}          
         </div>
       </section>
     </>
-  )
-}
+  );
+};
 
-export default page
+export default page;
