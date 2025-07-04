@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 
 import { cn } from "@/lib/utils";
 import { vapi } from "@/lib/vapi.sdk";
-// import { interviewer } from "@/constants";
+import { interviewer } from "@/constants";
 // import { createFeedback } from "@/lib/actions/general.action";
 
 enum CallStatus {
@@ -23,7 +23,7 @@ interface SavedMessage {
 
 
 const Agent = ({
-  userName, userId, type
+  userName, userId, type, interviewId, questions
 }: AgentProps) => {
   const router = useRouter();
   const [callStatus, setCallStatus] = useState<CallStatus>(CallStatus.INACTIVE);
@@ -83,8 +83,10 @@ const Agent = ({
 //       setLastMessage(messages[messages.length - 1].content);
 //     }
 
-//     const handleGenerateFeedback = async (messages: SavedMessage[]) => {
-//       console.log("handleGenerateFeedback");
+    const handleGenerateFeedback = async (messages: SavedMessage[]) => {
+      console.log("handleGenerateFeedback");
+
+      const { success, id } = {success: true, id: "12345"}; // Mocked response for demonstration
 
 //       const { success, feedbackId: id } = await createFeedback({
 //         interviewId: interviewId!,
@@ -93,28 +95,28 @@ const Agent = ({
 //         feedbackId,
 //       });
 
-//       if (success && id) {
-//         router.push(`/interview/${interviewId}/feedback`);
-//       } else {
-//         console.log("Error saving feedback");
-//         router.push("/");
-//       }
-//     };
-
-    if (callStatus === CallStatus.FINISHED) 
-//       if (type === "generate") {
+      if (success && id) {
+        router.push(`/interview/${interviewId}/feedback`);
+      } else {
+        console.log("Error saving feedback");
         router.push("/");
-//       } else {
-//         handleGenerateFeedback(messages);
-//       }
-//     }
+      }
+    };
+
+    if (callStatus === CallStatus.FINISHED) {
+      if (type === "generate") {
+        router.push("/");
+      } else {
+        handleGenerateFeedback(messages);
+      }
+    }
 //   }, [messages, callStatus, feedbackId, interviewId, router, type, userId]);
   }, [messages, callStatus,  type, userId]);
 
   const handleCall = async () => {
     setCallStatus(CallStatus.CONNECTING);
 
-//     if (type === "generate") {
+    if (type === "generate") {
       await vapi.start(
         undefined,
         undefined,
@@ -127,22 +129,20 @@ const Agent = ({
           },
         }
       );
+    }else {
+      let formattedQuestions = "";
+      if (questions) {
+        formattedQuestions = questions
+          .map((question) => `- ${question}`)
+          .join("\n");
+      }
+      await vapi.start(interviewer, {
+        variableValues: {
+          questions: formattedQuestions,
+        },
+      });
     }
-//     } else {
-//       let formattedQuestions = "";
-//       if (questions) {
-//         formattedQuestions = questions
-//           .map((question) => `- ${question}`)
-//           .join("\n");
-//       }
-
-//       await vapi.start(interviewer, {
-//         variableValues: {
-//           questions: formattedQuestions,
-//         },
-//       });
-//     }
-//   };
+  };
 
   const handleDisconnect = () => {
     setCallStatus(CallStatus.FINISHED);
