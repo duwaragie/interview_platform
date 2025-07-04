@@ -26,6 +26,7 @@ import { useState } from "react";
 const Agent = ({
   userName
 }: AgentProps) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [callStatus, setCallStatus] = useState<CallStatus>(CallStatus.INACTIVE);
     const isSpeaking = true;
     const messages = [ 
