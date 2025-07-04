@@ -1,9 +1,11 @@
 import Image from "next/image";
 import { redirect } from "next/navigation";
+
 import Agent from "@/components/Agent";
 import { getRandomInterviewCover } from "@/lib/utils";
-import {
 
+import {
+  getFeedbackByInterviewId,
   getInterviewById,
 } from "@/lib/actions/general.action";
 import { getCurrentUser } from "@/lib/actions/auth.action";
@@ -17,10 +19,11 @@ const InterviewDetails = async ({ params }: RouteParams) => {
   const interview = await getInterviewById(id);
   if (!interview) redirect("/");
 
-//   const feedback = await getFeedbackByInterviewId({
-//     interviewId: id,
-//     userId: user?.id!,
-//   });
+  const feedback = await getFeedbackByInterviewId({
+    interviewId: id,
+    // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+    userId: user?.id!,
+  });
 
   return (
     <>
@@ -46,12 +49,13 @@ const InterviewDetails = async ({ params }: RouteParams) => {
       </div>
 
       <Agent
-        userName={user?.name}
+        // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+        userName={user?.name!}
         userId={user?.id}
         interviewId={id}
         type="interview"
         questions={interview.questions}
-        // feedbackId={feedback?.id}
+        feedbackId={feedback?.id}
       />
     </>
   );

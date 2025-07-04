@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { vapi } from "@/lib/vapi.sdk";
 import { interviewer } from "@/constants";
-// import { createFeedback } from "@/lib/actions/general.action";
+import { createFeedback } from "@/lib/actions/general.action";
 
 enum CallStatus {
   INACTIVE = "INACTIVE",
@@ -21,15 +21,19 @@ interface SavedMessage {
   content: string;
 }
 
-
 const Agent = ({
-  userName, userId, type, interviewId, questions
+  userName,
+  userId,
+  interviewId,
+  feedbackId,
+  type,
+  questions,
 }: AgentProps) => {
   const router = useRouter();
   const [callStatus, setCallStatus] = useState<CallStatus>(CallStatus.INACTIVE);
   const [messages, setMessages] = useState<SavedMessage[]>([]);
   const [isSpeaking, setIsSpeaking] = useState(false);
-//   const [lastMessage, setLastMessage] = useState<string>("");
+  const [lastMessage, setLastMessage] = useState<string>("");
 
   useEffect(() => {
     const onCallStart = () => {
@@ -79,21 +83,19 @@ const Agent = ({
   }, []);
 
   useEffect(() => {
-//     if (messages.length > 0) {
-//       setLastMessage(messages[messages.length - 1].content);
-//     }
+    if (messages.length > 0) {
+      setLastMessage(messages[messages.length - 1].content);
+    }
 
     const handleGenerateFeedback = async (messages: SavedMessage[]) => {
       console.log("handleGenerateFeedback");
 
-      const { success, id } = {success: true, id: "12345"}; // Mocked response for demonstration
-
-//       const { success, feedbackId: id } = await createFeedback({
-//         interviewId: interviewId!,
-//         userId: userId!,
-//         transcript: messages,
-//         feedbackId,
-//       });
+      const { success, feedbackId: id } = await createFeedback({
+        interviewId: interviewId!,
+        userId: userId!,
+        transcript: messages,
+        feedbackId,
+      });
 
       if (success && id) {
         router.push(`/interview/${interviewId}/feedback`);
@@ -110,32 +112,26 @@ const Agent = ({
         handleGenerateFeedback(messages);
       }
     }
-//   }, [messages, callStatus, feedbackId, interviewId, router, type, userId]);
-  }, [messages, callStatus,  type, userId]);
+  }, [messages, callStatus, feedbackId, interviewId, router, type, userId]);
 
   const handleCall = async () => {
     setCallStatus(CallStatus.CONNECTING);
 
     if (type === "generate") {
-      await vapi.start(
-        undefined,
-        undefined,
-        undefined,
-        process.env.NEXT_PUBLIC_VAPI_WORKFLOW_ID!,
-        {
-          variableValues: {
-            username: userName,
-            userid: userId,
-          },
-        }
-      );
-    }else {
+      await vapi.start(process.env.NEXT_PUBLIC_VAPI_WORKFLOW_ID!, {
+        variableValues: {
+          username: userName,
+          userid: userId,
+        },
+      });
+    } else {
       let formattedQuestions = "";
       if (questions) {
         formattedQuestions = questions
           .map((question) => `- ${question}`)
           .join("\n");
       }
+
       await vapi.start(interviewer, {
         variableValues: {
           questions: formattedQuestions,
@@ -149,9 +145,6 @@ const Agent = ({
     vapi.stop();
   };
 
-  const lastestMessage = messages[messages.length - 1]?.content;
-  const isCallInactiveOrFinished = callStatus === CallStatus.INACTIVE || callStatus === CallStatus.FINISHED;
-
   return (
     <>
       <div className="call-view">
@@ -160,7 +153,7 @@ const Agent = ({
           <div className="avatar">
             <Image
               src="/ai-avatar.png"
-              alt="vapi"
+              alt="profile-image"
               width={65}
               height={54}
               className="object-cover"
@@ -189,23 +182,21 @@ const Agent = ({
         <div className="transcript-border">
           <div className="transcript">
             <p
-              key={lastestMessage}
+              key={lastMessage}
               className={cn(
                 "transition-opacity duration-500 opacity-0",
                 "animate-fadeIn opacity-100"
               )}
             >
-              {lastestMessage}
+              {lastMessage}
             </p>
           </div>
         </div>
       )}
 
-
-
       <div className="w-full flex justify-center">
         {callStatus !== "ACTIVE" ? (
-          <button className="relative btn-call" onClick={handleCall}>
+          <button className="relative btn-call" onClick={() => handleCall()}>
             <span
               className={cn(
                 "absolute animate-ping rounded-full opacity-75",
@@ -214,13 +205,13 @@ const Agent = ({
             />
 
             <span className="relative">
-              {isCallInactiveOrFinished
+              {callStatus === "INACTIVE" || callStatus === "FINISHED"
                 ? "Call"
                 : ". . ."}
             </span>
           </button>
         ) : (
-          <button className="btn-disconnect" onClick={handleDisconnect}>
+          <button className="btn-disconnect" onClick={() => handleDisconnect()}>
             End
           </button>
         )}
