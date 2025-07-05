@@ -1,7 +1,7 @@
 <div align="center">
   <br />
     <a href="https://github.com/duwaragie/interview_platform" target="_blank">
-      <img src="https://github.com/user-attachments/assets/1c0131c7-9f2d-4e3b-b47c-9679e76d8f9a" alt="PrepWise Banner">
+      <img src="https://github.com/user-attachments/assets/1c0131c7-9f2d-4e3b-b47c-9679e76d8f9a" alt="PrepWise">
     </a>
   <br />
   
@@ -42,7 +42,7 @@ PrepWise is an innovative AI-powered mock interview platform built with Next.js 
 - **Database:** Firebase Firestore
 - **AI Voice:** Vapi AI Voice Agents
 - **AI Text:** Google Gemini (via @ai-sdk/google)
-- **UI Components:** Radix UI, Lucide React
+- **UI Components:** Shadcn UI, Lucide React
 - **Form Handling:** React Hook Form, Zod validation
 - **Date Handling:** Day.js
 - **Notifications:** Sonner
@@ -54,7 +54,7 @@ PrepWise is an innovative AI-powered mock interview platform built with Next.js 
 👉 **Interview Generation**: Create customized mock interviews by specifying:
    - Job role (Frontend, Backend, Fullstack, etc.)
    - Experience level (Junior, Mid-level, Senior)
-   - Tech stack focus
+   - Tech stack focus (HTML, CSS, Next.js, Python, etc.)
    - Number of questions
    - Interview type (Technical, Behavioral, Mixed)
 
@@ -163,10 +163,10 @@ To run this project, you will need to add the following environment variables to
 ## <a name="usage">🚀 Usage</a>
 
 1. **Sign Up/Sign In**: Create an account or log in to access the platform
-2. **Generate Interview**: Click "Create New Interview" and specify your preferences
+2. **Generate Interview**: Click "Generate An Interview" and specify your preferences
 3. **Start Interview**: Join the generated interview and speak with the AI interviewer
 4. **Review Feedback**: After completing the interview, view detailed AI feedback
-5. **Track Progress**: Monitor your interview history and improvement over time
+5. **Track Progress**: Monitor your interview history and improvement over time by retaking the interview
 
 ## <a name="project-structure">📁 Project Structure</a>
 
