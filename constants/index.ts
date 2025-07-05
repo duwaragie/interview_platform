@@ -99,8 +99,7 @@ export const mappings = {
 
 export const interviewer: CreateAssistantDTO = {
   name: "Interviewer",
-  firstMessage:
-    "Hello! Thank you for taking the time to speak with me today. I'm excited to learn more about you and your experience.",
+  firstMessage: "Hello! Thank you for taking the time to speak with me today. I'm excited to learn more about you and your experience.",
   transcriber: {
     provider: "deepgram",
     model: "nova-2",
@@ -108,7 +107,7 @@ export const interviewer: CreateAssistantDTO = {
   },
   voice: {
     provider: "11labs",
-    voiceId: "sarah",
+    voiceId: "21m00Tcm4TlvDq8ikWAM", // Valid ElevenLabs voice ID
     stability: 0.4,
     similarityBoost: 0.8,
     speed: 0.9,
@@ -117,7 +116,7 @@ export const interviewer: CreateAssistantDTO = {
   },
   model: {
     provider: "openai",
-    model: "gpt-4",
+    model: "gpt-4-1106-preview", // Updated model name
     messages: [
       {
         role: "system",
