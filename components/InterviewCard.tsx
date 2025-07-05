@@ -72,12 +72,13 @@ const InterviewCard = async ({
                 width={22}
                 height={22}
                 alt="calendar"
+                style={{ width: "auto", height: "auto" }}
               />
               <p>{formattedDate}</p>
             </div>
 
             <div className="flex flex-row gap-2 items-center">
-              <Image src="/star.svg" width={22} height={22} alt="star" />
+              <Image src="/star.svg" width={22} height={22} alt="star" style={{ width: "auto", height: "auto" }} />
               <p>{feedback?.totalScore || "---"}/100</p>
             </div>
           </div>

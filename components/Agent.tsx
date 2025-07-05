@@ -34,6 +34,25 @@ const Agent = ({
   const [messages, setMessages] = useState<SavedMessage[]>([]);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [lastMessage, setLastMessage] = useState<string>("");
+  const [isPermissionGranted, setIsPermissionGranted] = useState(false);
+  const [permissionError, setPermissionError] = useState<string>("");
+
+  // Check microphone permissions on component mount
+  useEffect(() => {
+    const checkMicrophonePermission = async () => {
+      try {
+        await navigator.mediaDevices.getUserMedia({ audio: true });
+        setIsPermissionGranted(true);
+        setPermissionError("");
+      } catch (error) {
+        console.log("Microphone permission not granted:", error);
+        setIsPermissionGranted(false);
+        setPermissionError("Microphone access is required for the interview. Please allow microphone access in your browser.");
+      }
+    };
+
+    checkMicrophonePermission();
+  }, []);
 
   useEffect(() => {
     const onCallStart = () => {
@@ -63,6 +82,7 @@ const Agent = ({
 
     const onError = (error: Error) => {
       console.log("Error:", error);
+      setCallStatus(CallStatus.INACTIVE);
     };
 
     vapi.on("call-start", onCallStart);
@@ -115,6 +135,19 @@ const Agent = ({
   }, [messages, callStatus, feedbackId, interviewId, router, type, userId]);
 
   const handleCall = async () => {
+    // Check microphone permission before starting call
+    if (!isPermissionGranted) {
+      try {
+        await navigator.mediaDevices.getUserMedia({ audio: true });
+        setIsPermissionGranted(true);
+        setPermissionError("");
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (error) {
+        setPermissionError("Microphone permission is required for the interview. Please allow microphone access and try again.");
+        return;
+      }
+    }
+
     try {
       setCallStatus(CallStatus.CONNECTING);
 
@@ -151,9 +184,10 @@ const Agent = ({
     } catch (error) {
       console.error("Failed to start call:", error);
       setCallStatus(CallStatus.INACTIVE);
-      // Show user-friendly error message
+      setPermissionError("Failed to start the interview. Please check your internet connection and try again.");
     }
   };
+
   const handleDisconnect = () => {
     setCallStatus(CallStatus.FINISHED);
     vapi.stop();
@@ -192,6 +226,20 @@ const Agent = ({
         </div>
       </div>
 
+      {/* Permission Error Message */}
+      {permissionError && (
+        <div className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded mb-4">
+          <strong>⚠️ Audio Permission Required:</strong> {permissionError}
+        </div>
+      )}
+
+      {/* Microphone Status Indicator */}
+      {!isPermissionGranted && !permissionError && (
+        <div className="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded mb-4">
+          <strong>🎤 Checking Microphone:</strong> Please allow microphone access when prompted.
+        </div>
+      )}
+
       {messages.length > 0 && (
         <div className="transcript-border">
           <div className="transcript">
@@ -210,7 +258,14 @@ const Agent = ({
 
       <div className="w-full flex justify-center">
         {callStatus !== "ACTIVE" ? (
-          <button className="relative btn-call" onClick={() => handleCall()}>
+          <button 
+            className={cn(
+              "relative btn-call",
+              !isPermissionGranted && "opacity-50 cursor-not-allowed"
+            )}
+            onClick={() => handleCall()}
+            disabled={!isPermissionGranted}
+          >
             <span
               className={cn(
                 "absolute animate-ping rounded-full opacity-75",
@@ -220,7 +275,7 @@ const Agent = ({
 
             <span className="relative">
               {callStatus === "INACTIVE" || callStatus === "FINISHED"
-                ? "Call"
+                ? (isPermissionGranted ? "Call" : "Allow Microphone")
                 : ". . ."}
             </span>
           </button>

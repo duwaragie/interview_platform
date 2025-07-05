@@ -41,6 +41,7 @@ const page = async () => {
           width={400}
           height={500}
           className="max-sm:hidden"
+          style={{ width: "auto", height: "auto" }}
         />
       </section>
 

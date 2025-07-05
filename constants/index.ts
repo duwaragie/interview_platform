@@ -116,7 +116,7 @@ export const interviewer: CreateAssistantDTO = {
   },
   model: {
     provider: "openai",
-    model: "gpt-4-1106-preview", // Updated model name
+    model: "gpt-4o-mini", // Updated model name
     messages: [
       {
         role: "system",
