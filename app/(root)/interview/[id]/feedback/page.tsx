@@ -2,6 +2,7 @@ import dayjs from "dayjs";
 import Link from "next/link";
 import Image from "next/image";
 import { redirect } from "next/navigation";
+import { X } from "lucide-react";
 
 import {
   getFeedbackByInterviewId,
@@ -25,6 +26,21 @@ const Feedback = async ({ params }: RouteParams) => {
 
   return (
     <section className="section-feedback">
+      {/* Close Button */}
+      <div className="flex justify-end mb-4">
+        <Button
+          variant="outline"
+          size="sm"
+          className="flex items-center gap-2 text-light-600 hover:text-destructive-100 hover:border-destructive-100 transition-colors"
+          asChild
+        >
+          <Link href="/">
+            <X className="w-4 h-4" />
+            Close
+          </Link>
+        </Button>
+      </div>
+
       <div className="flex flex-row justify-center">
         <h1 className="text-4xl font-semibold">
           Feedback on the Interview -{" "}

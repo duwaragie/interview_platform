@@ -4,13 +4,17 @@ import { Button } from "@/components/ui/button";
 import { signOut as serverSignOut } from "@/lib/actions/auth.action";
 import { signOut as clientSignOut } from "firebase/auth";
 import { auth } from "@/firebase/client";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useState } from "react";
 import { LogOut } from "lucide-react";
 
 const LogoutButton = () => {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const pathname = usePathname();
+
+  // Don't show logout button on interview pages
+  const shouldHideLogout = pathname.includes('/interview');
 
   const handleLogout = async () => {
     try {
@@ -30,6 +34,11 @@ const LogoutButton = () => {
       setIsLoading(false);
     }
   };
+
+  // Don't render the button if we're on an interview page
+  if (shouldHideLogout) {
+    return null;
+  }
 
   return (
     <Button
