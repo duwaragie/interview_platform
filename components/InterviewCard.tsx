@@ -29,10 +29,10 @@ const InterviewCard = async ({
 
   const badgeColor =
     {
-      Behavioral: "bg-light-400",
-      Mixed: "bg-light-600",
-      Technical: "bg-light-800",
-    }[normalizedType] || "bg-light-600";
+      Behavioral: "bg-green-500",
+      Mixed: "bg-purple-500", 
+      Technical: "bg-blue-500",
+    }[normalizedType] || "bg-purple-500";
 
   const formattedDate = dayjs(
     feedback?.createdAt || createdAt || Date.now()
@@ -45,7 +45,7 @@ const InterviewCard = async ({
           {/* Type Badge */}
           <div
             className={cn(
-              "absolute top-0 right-0 w-fit px-4 py-2 rounded-bl-lg bg-light-600",
+              "absolute top-0 right-0 w-fit px-4 py-2 rounded-bl-lg",
               badgeColor
             )}
           >

@@ -102,7 +102,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
       <div className="flex flex-col gap-6 card py-14 px-10">
         <div className="flex flex-row gap-2 justify-center">
           <Image src="/logo.svg" alt="logo" height={32} width={38} />
-          <h2 className="text-primary-100">AcePilot</h2>
+          <h2 className="text-primary">AcePilot</h2>
         </div>
 
         <h3>Practice job interviews with AI</h3>
@@ -148,7 +148,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
           {isSignIn ? "No account yet?" : "Have an account already?"}
           <Link
             href={!isSignIn ? "/sign-in" : "/sign-up"}
-            className="font-bold text-user-primary ml-1"
+            className="font-bold text-primary ml-1"
           >
             {!isSignIn ? "Sign In" : "Sign Up"}
           </Link>
