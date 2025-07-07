@@ -1,7 +1,7 @@
 <div align="center">
   <br />
     <a href="https://github.com/duwaragie/interview_platform" target="_blank">
-      <img src="https://github.com/user-attachments/assets/1c0131c7-9f2d-4e3b-b47c-9679e76d8f9a" alt="PrepWise">
+      <img src="https://github.com/user-attachments/assets/1c0131c7-9f2d-4e3b-b47c-9679e76d8f9a" alt="AcePilot">
     </a>
   <br />
   
@@ -13,7 +13,7 @@
     <img src="https://img.shields.io/badge/-Firebase-black?style=for-the-badge&logoColor=white&logo=firebase&color=DD2C00" alt="firebase" />
   </div>
 
-  <h3 align="center">PrepWise: AI-Powered Mock Interview Platform</h3>
+  <h3 align="center">AcePilot: AI-Powered Mock Interview Platform</h3>
 
    <div align="center">
      A comprehensive job interview preparation platform that helps candidates practice with AI-powered voice interviews tailored to specific roles and experience levels.
@@ -32,7 +32,7 @@
 
 ## <a name="introduction">🤖 Introduction</a>
 
-PrepWise is an innovative AI-powered mock interview platform built with Next.js and Firebase. The application leverages Vapi's voice AI technology and Google Gemini to create realistic interview scenarios. Users can generate customized interviews based on their target role (frontend, backend, fullstack, etc.), experience level (junior, mid-level, senior), and preferred tech stack, then participate in voice-based mock interviews with detailed AI feedback.
+AcePilot is an innovative AI-powered mock interview platform built with Next.js and Firebase. The application leverages Vapi's voice AI technology and Google Gemini to create realistic interview scenarios. Users can generate customized interviews based on their target role (frontend, backend, fullstack, etc.), experience level (junior, mid-level, senior), and preferred tech stack, then participate in voice-based mock interviews with detailed AI feedback.
 
 ## <a name="tech-stack">⚙️ Tech Stack</a>
 
