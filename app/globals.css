@@ -317,6 +317,27 @@
       @apply text-sm font-semibold capitalize text-white;
     }
   }
+
+  /* More visible light mode patterns */
+  .pattern-teal-dots {
+    background-image: radial-gradient(circle at 20px 20px, #0f766e 2px, transparent 2px);
+    background-size: 40px 40px;
+    opacity: 0.1;
+  }
+
+  .pattern-teal-grid {
+    background-image: 
+      linear-gradient(#14b8a6 1px, transparent 1px),
+      linear-gradient(90deg, #14b8a6 1px, transparent 1px);
+    background-size: 20px 20px;
+    opacity: 0.08;
+  }
+
+  .pattern-surface-mesh {
+    background-image: conic-gradient(from 0deg at 50% 50%, #0f766e 0deg, transparent 60deg, transparent 300deg, #14b8a6 360deg);
+    background-size: 60px 60px;
+    opacity: 0.06;
+  }
 }
 
 @utility light-gradient {
@@ -344,13 +365,12 @@
 }
 
 @utility pattern {
-  @apply bg-[url('/pattern.png')] bg-top bg-no-repeat;
+  @apply dark:bg-[url('/pattern.png')] bg-[url('/pattern-light.svg')] bg-top bg-repeat;
 }
 
 @utility blue-gradient-dark {
   @apply bg-gradient-to-b from-[#171532] to-[#08090D];
 }
-
 @utility blue-gradient {
   @apply bg-gradient-to-l from-[#FFFFFF] to-[#CAC5FE];
 }
