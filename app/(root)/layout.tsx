@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 
 import { isAuthenticated } from "@/lib/actions/auth.action";
 import LogoutButton from "@/components/LogoutButton";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const RootLayout = async ({ children }: { children: ReactNode }) => {
   const isUserAuthenticated = await isAuthenticated();
@@ -15,10 +16,13 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
       <nav className="flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2">
           <Image src="/logo1.png" alt="AcePilot Logo" width={38} height={32} style={{ width: "auto", height: "auto" }} />
-          <h2 className="text-primary-100">AcePilot</h2>
+          <h2 className="text-primary font-bold">AcePilot</h2>
         </Link>
         
-        <LogoutButton />
+        <div className="flex items-center gap-3">
+          <ThemeToggle />
+          <LogoutButton />
+        </div>
       </nav>
 
       {children}

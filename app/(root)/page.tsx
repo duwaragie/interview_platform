@@ -46,7 +46,7 @@ const page = async () => {
       </section>
 
       <section className="flex flex-col gap-6 mt-8">
-        <h2>Your Interviews</h2>
+        <h2 className="text-primary">Your Interviews</h2>
 
         <div className="interviews-section">
           {/* {userInterviews && userInterviews.length > 0 ? (
@@ -69,7 +69,7 @@ const page = async () => {
       </section>
 
       <section className="flex flex-col gap-6 mt-8">
-        <h2>Take an Interview</h2>
+        <h2 className="text-primary">Take an Interview</h2>
 
         <div className="interviews-section">
           {/* {availableInterviews.slice(0, 6).map((interview) => (
